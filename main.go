@@ -55,27 +55,27 @@ func main() {
 	fmt.Println(r)
 	fmt.Println("----")
 
-	// API.get("/search?username=" + txt)
-	// API.post("update_reply", { id: reply.id, content: txt })
-	// API.get("/my_emojis", {})
-	// API.post("/delete_post", { id: article.id })
-	// API.post("/update_personal_info", {
+	// API.get("/search?username=" + txt) //搜尋用戶 (auto-complete 用)
+	// API.post("update_reply", { id: reply.id, content: txt }) //修改回覆
+	// API.get("/my_emojis", {}) // 查看自己的emoji (cli 不用)
+	// API.post("/delete_post", { id: article.id }) // 刪除自己的文
+	// API.post("/update_personal_info", { //更新個人資料
 	// 	description: description,
 	// 	color: color,
 	// 	display_name: displayName,
 	//   })
-	// API.post("/reset-password", { email: email, password: password })
-	// API.get("/notifications")
-	// API.get("/get_replies", { post_id: post_id })
-	// API.get("/get_profile", {username: username})
-	// API.get(
+	// API.post("/reset-password", { email: email }) // 重設密碼 (未實現)
+	// API.get("/notifications") // 看自己通知
+	// API.get("/get_replies", { post_id: post_id }) //看文章回覆
+	// API.get("/get_profile", {username: username}) //看username 的個人檔案
+	// API.get( //看文章列表 : inbox->時間線 outbox->username 的文章
 	// username == null ? "/get_inbox" : "/get_outbox",
 	// mode == "append"
-	// 	? { less_than_ts: minTS, username: username }
+	// 	? { less_than_ts: minTS, username: username } //minTS 查看>minTS 的timestamp 的文章 //分頁用
 	// 	: mode == "prepend"
-	// 	? { more_than_ts: maxTS, username: username }
+	// 	? { more_than_ts: maxTS, username: username }  //maxTS 查看<maxTS 的timestamp 的文章 //分頁用
 	// 	: { username: username }
 
-	// API.post("/unfollow", { user_id: user.id })
-	// API.post("/follow", { user_id: user.id })
+	// API.post("/unfollow", { user_id: user.id }) //關注
+	// API.post("/follow", { user_id: user.id }) //取消關注
 }
