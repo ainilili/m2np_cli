@@ -54,4 +54,28 @@ func main() {
 	r = GetContent("GET", "https://m2np.com/api/get_outbox", mss{"username": "abbychau"}, token) //username發的文
 	fmt.Println(r)
 	fmt.Println("----")
+
+	// API.get("/search?username=" + txt)
+	// API.post("update_reply", { id: reply.id, content: txt })
+	// API.get("/my_emojis", {})
+	// API.post("/delete_post", { id: article.id })
+	// API.post("/update_personal_info", {
+	// 	description: description,
+	// 	color: color,
+	// 	display_name: displayName,
+	//   })
+	// API.post("/reset-password", { email: email, password: password })
+	// API.get("/notifications")
+	// API.get("/get_replies", { post_id: post_id })
+	// API.get("/get_profile", {username: username})
+	// API.get(
+	// username == null ? "/get_inbox" : "/get_outbox",
+	// mode == "append"
+	// 	? { less_than_ts: minTS, username: username }
+	// 	: mode == "prepend"
+	// 	? { more_than_ts: maxTS, username: username }
+	// 	: { username: username }
+
+	// API.post("/unfollow", { user_id: user.id })
+	// API.post("/follow", { user_id: user.id })
 }
