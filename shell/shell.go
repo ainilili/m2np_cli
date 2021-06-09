@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"m2np_cli/ctx"
 	"os"
+	"strings"
 )
 
 type shell struct {
@@ -40,5 +41,5 @@ func (s *shell) Start(){
 
 func (s *shell) readline() ([]byte, error){
 	inputs, err := s.in.ReadBytes('\n')
-	return inputs[0:len(inputs) - 1], err
+	return []byte(strings.TrimSpace(string(inputs))), err
 }
