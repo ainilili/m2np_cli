@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"m2np_cli/api"
+	"m2np_cli/model"
 	"os"
 	"strings"
+	"time"
 )
 
 type action func(s *shell, inputs []byte) (string, error)
@@ -19,11 +20,15 @@ func distribute(s *shell, inputs []byte, actions ...map[string]action) (string, 
 			return res, err
 		}
 	}
-	keys := make([]string, 0)
+	keysm := map[string]bool{}
 	for _, as := range actions{
 		for k := range as {
-			keys = append(keys, k)
+			keysm[k] = true
 		}
+	}
+	keys := make([]string, 0)
+	for k, _ := range keysm{
+		keys = append(keys, k)
 	}
 	return fmt.Sprintf("unknow command %s, reference %v\n", args[0], keys), nil
 }
@@ -78,19 +83,40 @@ var rootActions = map[string]action{
 		if len(args) != 3 {
 			return "", errors.New("login $user $pwd")
 		}
-		token, err :=  api.Login(args[1], args[2])
+		err := s.ctx.Login(args[1], args[2])
 		if err != nil{
 			return "", errors.New("login fail")
 		}
-		s.ctx.Token = token
-		s.ctx.User = args[1]
 		return "login successful!\n", nil
 	},
 }
 
 var postsActions = map[string]action{
 	"ls": func(s *shell, inputs []byte) (string, error) {
-		return "output all posts of login user.\n", nil
+		inbox, err := s.ctx.GetInBox()
+		if err != nil{
+			return "", errors.New(fmt.Sprintf("get inbox fail: %v", err))
+		}
+		users := map[int64]model.User{}
+		for _, user := range inbox.Users {
+			users[user.ID] = user
+		}
+		buffer := bytes.Buffer{}
+		for _, v := range inbox.Posts {
+			buffer.WriteString(fmt.Sprintf("@%-10s %s %s\n", users[v.UserID].Username, time.Unix(v.CreatedAt, 0).Format("Jan 02 15:04"), v.Content))
+		}
+		return buffer.String(), nil
+	},
+	"touch": func(s *shell, inputs []byte) (string, error) {
+		args := strings.Split(string(inputs), " ")
+		if len(args) != 2 {
+			return "", errors.New("touch $content")
+		}
+		err := s.ctx.PostPost(args[1])
+		if err != nil{
+			return "", errors.New(fmt.Sprintf("post fail: %v", err))
+		}
+		return "", nil
 	},
 }
 
